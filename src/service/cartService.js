@@ -47,4 +47,38 @@ const addProduct = (req, res) => {
   });
 };
 
-module.exports = { getAllProducts, getProductById, addProduct };
+const deleteProduct = (req, res) => {
+  return new Promise((resolve, reject) => {
+    productSchemaModel.deleteOne({ id: req.params.id }, (err, data) => {
+      if (err) {
+        reject(res.send('delete failed'));
+      } else {
+        resolve(res.send(data));
+      }
+    });
+  });
+};
+
+const changeQuantity = (req, res) => {
+  return new Promise((resolve, reject) => {
+    productSchemaModel.updateOne(
+      { id: req.params.id },
+      { $set: { quantity: req.body.quantity } },
+      (err, data) => {
+        if (err) {
+          reject(res.send('update failed'));
+        } else {
+          resolve(res.send(data));
+        }
+      }
+    );
+  });
+};
+
+module.exports = {
+  getAllProducts,
+  getProductById,
+  addProduct,
+  deleteProduct,
+  changeQuantity,
+};
