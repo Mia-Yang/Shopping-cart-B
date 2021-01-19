@@ -11,3 +11,5 @@ app.use(router);
 app.listen(3001, () => {
   console.log('App is running...');
 });
+
+module.exports = app;
