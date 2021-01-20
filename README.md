@@ -22,3 +22,20 @@ When the terminal shows output as
     App is running...
 
 then the MongoDB has successfully connected, and the server has been running. Data could be get at http://localhost:3001/shoppingCart
+
+## Depoly with docker
+
+The project provided a Dockerfile so that you could deploy it with docker. Firstly, change the link to MongoDB in cartRepository.js from
+` mongodb://localhost:27017/shoppingCart `
+to `mongodb://mongodb/shoppingCart`
+and build a image of node:
+
+    docker build -t b-shoppingcart .
+
+Then, run a container of mongo with the image pull from official image:
+
+    docker run -d -p 27017:27017 --name shoppingcart-mongo mongo
+
+Finally, run a container by the image just build, and link it to the mongodb container.
+
+    docker run -d --name shoppingcart --link=shoppingcart-mongodb:mongodb -p 3001:3001 b-shoppingcart
